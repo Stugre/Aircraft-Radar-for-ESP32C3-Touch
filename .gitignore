@@ -1,0 +1,17 @@
+# ESP-IDF build output
+build/
+managed_components/
+
+# Local flashing and monitor logs
+*.log
+*.tmp
+
+# Editor and OS noise
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Python helper cache, if local tooling is used
+__pycache__/
+*.pyc
