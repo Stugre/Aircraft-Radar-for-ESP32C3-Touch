@@ -227,15 +227,96 @@ The aircraft API radius is calculated from the radar miles setting and converted
 
 ## Build And Flash
 
-Install ESP-IDF, open an ESP-IDF terminal, then run:
+These instructions are for Windows because this project was developed in an ESP-IDF PowerShell environment.
+
+### 1. Install ESP-IDF
+
+Download and install Espressif's official ESP-IDF tools for Windows:
+
+- Official setup guide: <https://docs.espressif.com/projects/esp-idf/en/latest/get-started/windows-setup.html>
+- Espressif installer downloads: <https://dl.espressif.com/dl/esp-idf/>
+
+Recommended install choice:
+
+- Use the normal graphical Windows installer.
+- Install to a simple path such as `C:\Espressif`.
+- Let the installer install Git, Python, CMake, Ninja, and the ESP-IDF tools if it offers to do so.
+- When installation finishes, use the shortcut named something like `ESP-IDF PowerShell` or `ESP-IDF Command Prompt`.
+
+### 2. Download This Project
+
+Create a folder for ESP-IDF projects. A tidy Windows location is:
+
+```powershell
+mkdir C:\ESP-IDF-Projects
+cd C:\ESP-IDF-Projects
+```
+
+Clone this repository:
+
+```powershell
+git clone https://github.com/Stugre/Aircraft-Radar-for-ESP32C3-Touch.git
+cd Aircraft-Radar-for-ESP32C3-Touch
+```
+
+If you downloaded the project as a ZIP from GitHub instead, extract it to:
+
+```text
+C:\ESP-IDF-Projects\Aircraft-Radar-for-ESP32C3-Touch
+```
+
+Then open `ESP-IDF PowerShell` and change into that folder:
+
+```powershell
+cd C:\ESP-IDF-Projects\Aircraft-Radar-for-ESP32C3-Touch
+```
+
+### 3. Build The Firmware
+
+Set the target chip and build:
 
 ```powershell
 idf.py set-target esp32c3
 idf.py build
+```
+
+The main firmware binary will be created under `build/` after a successful build.
+
+### 4. Find The COM Port
+
+Plug in the ESP32-C3 board over USB, then check Windows Device Manager under **Ports (COM & LPT)**. The board will usually appear as something like `COM3`, `COM4`, or `COM5`.
+
+You can also list serial ports from PowerShell:
+
+```powershell
+[System.IO.Ports.SerialPort]::getportnames()
+```
+
+### 5. Flash And Monitor
+
+Replace `COMx` with your actual port:
+
+```powershell
 idf.py -p COMx flash monitor
 ```
 
-Replace `COMx` with the serial port for your ESP32-C3 board.
+Example:
+
+```powershell
+idf.py -p COM5 flash monitor
+```
+
+To leave the serial monitor, press `Ctrl+]`.
+
+### 6. First Boot Setup
+
+On first boot, or if Wi-Fi setup is needed, the device starts its setup hotspot:
+
+- Wi-Fi network: `RADAR-SETUP`
+- Password: `12345678`
+- Browser address: `http://192.168.4.1`
+
+Enter your Wi-Fi details and postcode, save, and the device will restart into radar mode.
 
 ## Notes
 
